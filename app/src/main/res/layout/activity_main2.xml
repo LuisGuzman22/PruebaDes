@@ -6,18 +6,31 @@
     android:layout_height="match_parent"
     tools:context="com.example.luisguzman.myapplication.Main2Activity">
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/RV_Preguntas"
-            android:scrollbars="vertical"
-            android:fadeScrollbars="false"
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            >
 
-    </android.support.v7.widget.CardView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/RV_Preguntas"
+                android:scrollbars="vertical"
+                android:fadeScrollbars="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </android.support.v7.widget.CardView>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/guardar"/>
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

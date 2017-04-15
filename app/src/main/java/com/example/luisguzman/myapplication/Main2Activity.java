@@ -8,6 +8,9 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.luisguzman.myapplication.adapter.AdapterPreguntas;
 import com.example.luisguzman.myapplication.databasee.SchemaHelper;
@@ -23,9 +26,10 @@ public class Main2Activity extends AppCompatActivity {
     Preguntas_datasource s_preguntas;
 
     RecyclerView RV_Preguntas;
-    // VARIABLES ADAPTER EMBALAJE
     private ArrayList<PreguntasModel> datosPreguntas;
     private AdapterPreguntas mAdapterPreguntas;
+
+    Button guardar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,8 @@ public class Main2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         sh = new SchemaHelper(Main2Activity.this);
+
+        guardar = (Button) findViewById(R.id.guardar);
 
         datosPreguntas = new ArrayList<PreguntasModel>();
         RV_Preguntas = (RecyclerView) findViewById(R.id.RV_Preguntas);
@@ -46,6 +52,18 @@ public class Main2Activity extends AppCompatActivity {
 
 
         cargarPreguntas();
+
+        guardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int x = 0;
+                while (mAdapterPreguntas.getItemCount() > x ){
+                    Toast.makeText(Main2Activity.this, "" + datosPreguntas.get(x).getmPregunta(), Toast.LENGTH_SHORT).show();
+                    ++x;
+                }
+
+            }
+        });
     }
 
     public void cargarPreguntas(){
@@ -63,5 +81,7 @@ public class Main2Activity extends AppCompatActivity {
         c.close();
         mAdapterPreguntas.notifyDataSetChanged();
     }
+
+
 
 }
