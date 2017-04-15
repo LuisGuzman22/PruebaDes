@@ -20,10 +20,12 @@ public class Preguntas_datasource {
     }
 
 
-    public boolean cargarDatos(SQLiteDatabase db, String pregunta){
+    public boolean cargarDatos(SQLiteDatabase db, int tipo, String pregunta){
         try {
             ContentValues cv = new ContentValues();
+            cv.put("tipo_pregunta", tipo);
             cv.put("pregunta", pregunta);
+
             long result = db.insertOrThrow("preguntas", null, cv);
             return (result >= 0);
         } catch (Exception e) {

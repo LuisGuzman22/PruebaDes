@@ -29,6 +29,7 @@ public class SchemaHelper extends SQLiteOpenHelper implements Database {
         try {
             db.execSQL("CREATE TABLE preguntas(" +
                     " id_pregunta INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    " tipo_pregunta INTEGER, " +
                     " pregunta VARCHAR(500));");
         } catch (SQLException e) {
             e.printStackTrace();

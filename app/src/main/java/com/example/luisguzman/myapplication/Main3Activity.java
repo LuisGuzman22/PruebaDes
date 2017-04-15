@@ -37,11 +37,11 @@ public class Main3Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 db = sh.getWritableDatabase();
-                if (s_pregunta.cargarDatos(db, pregunta.getText().toString().trim())){
+                /*if (s_pregunta.cargarDatos(db, pregunta.getText().toString().trim())){
                     Toast.makeText(Main3Activity.this, "Pregunta almacenada", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(Main3Activity.this, "Pregunta no almacenada", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
         });
 

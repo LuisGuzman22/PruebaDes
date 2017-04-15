@@ -41,11 +41,11 @@ public class MainActivity extends AppCompatActivity {
         cargar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                s_preguntas.cargarDatos(db, "Que le paso a lupita");
-                s_preguntas.cargarDatos(db, "Como se llama");
-                s_preguntas.cargarDatos(db, "Que hora es");
-                s_preguntas.cargarDatos(db, "Cuantos años tienes");
-                s_preguntas.cargarDatos(db, "asdasdas");
+                s_preguntas.cargarDatos(db, 1 ,"Que le paso a lupita");
+                s_preguntas.cargarDatos(db, 1, "Como se llama");
+                s_preguntas.cargarDatos(db, 2, "Que hora es");
+                s_preguntas.cargarDatos(db, 2, "Cuantos años tienes");
+                s_preguntas.cargarDatos(db, 2, "asdasdas");
 
                 s_respuestas.cargarDatos(db, 1, "No se");
                 s_respuestas.cargarDatos(db, 1, "Si se");

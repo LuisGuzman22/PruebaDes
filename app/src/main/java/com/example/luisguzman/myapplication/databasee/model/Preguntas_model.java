@@ -8,6 +8,9 @@ public class Preguntas_model {
     private int mIdPregunta;
     private String mPregunta;
 
+    public Preguntas_model() {
+    }
+
     public Preguntas_model(int mIdPregunta, String mPregunta) {
         this.mIdPregunta = mIdPregunta;
         this.mPregunta = mPregunta;

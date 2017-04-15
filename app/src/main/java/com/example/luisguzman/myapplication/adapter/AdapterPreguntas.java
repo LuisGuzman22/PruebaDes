@@ -5,10 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -18,6 +20,7 @@ import com.example.luisguzman.myapplication.R;
 import com.example.luisguzman.myapplication.databasee.SchemaHelper;
 import com.example.luisguzman.myapplication.databasee.datasource.Respuestas_datasource;
 import com.example.luisguzman.myapplication.model.PreguntasModel;
+import com.example.luisguzman.myapplication.model.RespuestasModel;
 
 import java.util.ArrayList;
 
@@ -38,10 +41,12 @@ public class AdapterPreguntas extends RecyclerView.Adapter<AdapterPreguntas.Preg
 
         public TextView TV_Preguntas;
         public RadioGroup rgp;
+        public RadioButton radioButton;
 
         public PreguntasModel_ViewHolder(View itemView) {
             super(itemView);
             rgp= (RadioGroup) itemView.findViewById(R.id.radiogroup);
+            radioButton = new RadioButton(itemView.getContext());
 
 
             TV_Preguntas = (TextView) itemView.findViewById(R.id.TV_Preguntas);
@@ -68,21 +73,46 @@ public class AdapterPreguntas extends RecyclerView.Adapter<AdapterPreguntas.Preg
         sh = new SchemaHelper(context);
         db = sh.getWritableDatabase();
         s_respuesta = new Respuestas_datasource(context);
-
+        RespuestasModel m_respuestas;
 
         viewHolder.TV_Preguntas.setText(datos.get(pos).getmIdPregunta() + " - " + datos.get(pos).getmPregunta());
+/*
+        RadioButton radioButton = new RadioButton(context);
+        radioButton.setText(datos.get(pos).getmRespuesta());
+        rprms= new RadioGroup.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
+        viewHolder.rgp.addView(radioButton, rprms);*/
 
         Cursor c = s_respuesta.obtenerRespuestas(db, datos.get(pos).getmIdPregunta());
+        rprms = new RadioGroup.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
+
         if (c.moveToFirst()){
             do {
-                RadioButton radioButton = new RadioButton(context);
-                radioButton.setText(c.getString(c.getColumnIndex("respuesta")));
-                rprms= new RadioGroup.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
-                viewHolder.rgp.addView(radioButton, rprms);
+
+                if (datos.get(pos).getmTipoPregunta() == 1) {
+                    viewHolder.radioButton = new RadioButton(context);
+                    viewHolder.radioButton.setText(c.getString(c.getColumnIndex("respuesta")));
+                    viewHolder.radioButton.setId(c.getInt(c.getColumnIndex("id_respuesta")));
+
+                    viewHolder.rgp.addView(viewHolder.radioButton, rprms);
+                } else if (datos.get(pos).getmTipoPregunta() == 2){
+                    CheckBox checkBox = new CheckBox(context);
+                    checkBox.setText(c.getString(c.getColumnIndex("respuesta")));
+                    checkBox.setId(c.getInt(c.getColumnIndex("id_respuesta")));
+                    viewHolder.rgp.addView(checkBox, rprms);
+
+                }
+
 
             } while (c.moveToNext());
         }
 
+
+        if (viewHolder.radioButton.isChecked()){
+            Log.d("ADAPTADOR", "TRue" + datos.get(pos).getmIdPregunta());
+            m_respuestas = new RespuestasModel(c.getInt(c.getColumnIndex("id_respuesta")), datos.get(pos).getmIdPregunta());
+        } else {
+            Log.d("ADAPTADOR", "false" + datos.get(pos).getmIdPregunta());
+        }
 
 
     }

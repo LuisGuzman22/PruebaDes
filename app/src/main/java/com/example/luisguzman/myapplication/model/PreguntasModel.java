@@ -7,10 +7,23 @@ package com.example.luisguzman.myapplication.model;
 public class PreguntasModel {
     private int mIdPregunta;
     private String mPregunta;
+    private int mTipoPregunta;
 
-    public PreguntasModel(int IdPregunta, String Pregunta) {
+
+    private int mIdRespuesta;
+    private String mRespuesta;
+
+    public PreguntasModel(int IdPregunta, String Pregunta, int TipoPregunta) {
         this.mIdPregunta = IdPregunta;
         this.mPregunta = Pregunta;
+        this.mTipoPregunta = TipoPregunta;
+    }
+
+    public PreguntasModel(int IdPregunta, String Pregunta, int IdRespuesta, String Respuesta) {
+        this.mIdPregunta = IdPregunta;
+        this.mPregunta = Pregunta;
+        this.mIdRespuesta = IdRespuesta;
+        this.mRespuesta = Respuesta;
     }
 
     public int getmIdPregunta() {
@@ -27,5 +40,29 @@ public class PreguntasModel {
 
     public void setmPregunta(String mPregunta) {
         this.mPregunta = mPregunta;
+    }
+
+    public int getmIdRespuesta() {
+        return mIdRespuesta;
+    }
+
+    public void setmIdRespuesta(int mIdRespuesta) {
+        this.mIdRespuesta = mIdRespuesta;
+    }
+
+    public String getmRespuesta() {
+        return mRespuesta;
+    }
+
+    public void setmRespuesta(String mRespuesta) {
+        this.mRespuesta = mRespuesta;
+    }
+
+    public int getmTipoPregunta() {
+        return mTipoPregunta;
+    }
+
+    public void setmTipoPregunta(int mTipoPregunta) {
+        this.mTipoPregunta = mTipoPregunta;
     }
 }
