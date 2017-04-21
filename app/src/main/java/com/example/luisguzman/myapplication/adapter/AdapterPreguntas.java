@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.IdRes;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +16,9 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.luisguzman.myapplication.Main2Activity;
 import com.example.luisguzman.myapplication.R;
 import com.example.luisguzman.myapplication.databasee.SchemaHelper;
 import com.example.luisguzman.myapplication.databasee.datasource.Respuestas_datasource;
@@ -30,6 +33,7 @@ import java.util.ArrayList;
 
 public class AdapterPreguntas extends RecyclerView.Adapter<AdapterPreguntas.PreguntasModel_ViewHolder> {
     private ArrayList<PreguntasModel> datos;
+    private ArrayList<RespuestasModel> respuestas = new ArrayList<RespuestasModel>();
     private Context context;
     private Activity activity;
 
@@ -37,11 +41,13 @@ public class AdapterPreguntas extends RecyclerView.Adapter<AdapterPreguntas.Preg
     SQLiteDatabase db;
     Respuestas_datasource s_respuesta;
 
+
     public static class PreguntasModel_ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView TV_Preguntas;
         public RadioGroup rgp;
         public RadioButton radioButton;
+
 
         public PreguntasModel_ViewHolder(View itemView) {
             super(itemView);
@@ -73,7 +79,6 @@ public class AdapterPreguntas extends RecyclerView.Adapter<AdapterPreguntas.Preg
         sh = new SchemaHelper(context);
         db = sh.getWritableDatabase();
         s_respuesta = new Respuestas_datasource(context);
-        RespuestasModel m_respuestas;
 
         viewHolder.TV_Preguntas.setText(datos.get(pos).getmIdPregunta() + " - " + datos.get(pos).getmPregunta());
 /*
@@ -84,36 +89,39 @@ public class AdapterPreguntas extends RecyclerView.Adapter<AdapterPreguntas.Preg
 
         Cursor c = s_respuesta.obtenerRespuestas(db, datos.get(pos).getmIdPregunta());
         rprms = new RadioGroup.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
-
-        if (c.moveToFirst()){
+        CheckBox checkBox = new CheckBox(context);
+        if (c.moveToFirst()) {
             do {
 
                 if (datos.get(pos).getmTipoPregunta() == 1) {
                     viewHolder.radioButton = new RadioButton(context);
                     viewHolder.radioButton.setText(c.getString(c.getColumnIndex("respuesta")));
                     viewHolder.radioButton.setId(c.getInt(c.getColumnIndex("id_respuesta")));
-
                     viewHolder.rgp.addView(viewHolder.radioButton, rprms);
-                } else if (datos.get(pos).getmTipoPregunta() == 2){
-                    CheckBox checkBox = new CheckBox(context);
+                } else if (datos.get(pos).getmTipoPregunta() == 2) {
                     checkBox.setText(c.getString(c.getColumnIndex("respuesta")));
                     checkBox.setId(c.getInt(c.getColumnIndex("id_respuesta")));
-                    viewHolder.rgp.addView(checkBox, rprms);
+                   // viewHolder.rgp.addView(checkBox, rprms);
 
                 }
 
+                /*if (checkBox.isChecked()){
+                    respuestas.add(new RespuestasModel(datos.get(pos).getmIdRespuesta(), datos.get(pos).getmIdPregunta()));
+                } else if (!checkBox.isChecked()){
+                    respuestas.remove(new RespuestasModel(datos.get(pos).getmIdRespuesta(), datos.get(pos).getmIdPregunta()));
+                }*/
 
             } while (c.moveToNext());
         }
 
 
-        if (viewHolder.radioButton.isChecked()){
-            Log.d("ADAPTADOR", "TRue" + datos.get(pos).getmIdPregunta());
-            m_respuestas = new RespuestasModel(c.getInt(c.getColumnIndex("id_respuesta")), datos.get(pos).getmIdPregunta());
-        } else {
-            Log.d("ADAPTADOR", "false" + datos.get(pos).getmIdPregunta());
-        }
-
+        viewHolder.rgp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                //Toast.makeText(context, "" + pregunta + " - " + respuesta, Toast.LENGTH_SHORT).show();
+                ((Main2Activity) context).guardarRespuestas(datos.get(pos).getmIdPregunta(), viewHolder.rgp.getCheckedRadioButtonId());
+            }
+        });
 
     }
 

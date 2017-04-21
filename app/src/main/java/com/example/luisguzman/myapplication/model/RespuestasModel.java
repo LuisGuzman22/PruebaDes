@@ -19,6 +19,12 @@ public class RespuestasModel {
         this.mIdPregunta = mIdPregunta;
     }
 
+    public RespuestasModel(int mIdRespuesta, int mIdPregunta, String mRespuesta) {
+        this.mIdRespuesta = mIdRespuesta;
+        this.mIdPregunta = mIdPregunta;
+        this.mRespuesta = mRespuesta;
+    }
+
     public int getmIdRespuesta() {
         return mIdRespuesta;
     }

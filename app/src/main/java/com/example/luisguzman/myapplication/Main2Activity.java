@@ -28,12 +28,15 @@ public class Main2Activity extends AppCompatActivity {
     SQLiteDatabase db;
     Preguntas_datasource s_preguntas;
     Respuestas_datasource s_respuestas;
+    RespuestasModel m_respuestas;
 
     RecyclerView RV_Preguntas;
     private ArrayList<PreguntasModel> datosPreguntas;
     private ArrayList<RespuestasModel> datosRespuestas;
     private AdapterPreguntas mAdapterPreguntas;
     private AdapterRespuestas mAdapterRespuestas;
+
+    StringBuffer sb;
 
 
     Button guardar;
@@ -49,6 +52,7 @@ public class Main2Activity extends AppCompatActivity {
 
         datosPreguntas = new ArrayList<PreguntasModel>();
         datosRespuestas = new ArrayList<RespuestasModel>();
+        m_respuestas = new RespuestasModel();
 
         RV_Preguntas = (RecyclerView) findViewById(R.id.RV_Preguntas);
 
@@ -67,15 +71,12 @@ public class Main2Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int x = 0;
-                RespuestasModel m_respuestas = new RespuestasModel();
-                Log.d("Actividad", String.valueOf(m_respuestas.getCount()));
-                while (m_respuestas.getCount() > x ){
-
-                    String pregunta = String.valueOf(datosRespuestas.get(x).getmIdPregunta());
-                    String respuesta = String.valueOf(datosRespuestas.get(x).getmIdRespuesta());
-                    System.out.println(pregunta + " " + respuesta);
+                Log.d("Contador", String.valueOf(mAdapterRespuestas.getItemCount()));
+                while (x < mAdapterRespuestas.getItemCount()){
+                    Toast.makeText(Main2Activity.this, datosRespuestas.get(x).getmIdPregunta() + " - " + datosRespuestas.get(x).getmIdRespuesta(), Toast.LENGTH_SHORT).show();
                     ++x;
                 }
+
 
             }
         });
@@ -84,6 +85,7 @@ public class Main2Activity extends AppCompatActivity {
     public void cargarPreguntas(){
         db = sh.getWritableDatabase();
         s_preguntas = new Preguntas_datasource(Main2Activity.this);
+        s_respuestas = new Respuestas_datasource(Main2Activity.this);
         Cursor c = s_preguntas.obtenerPreguntas(db);
         if (c.moveToFirst()) {
             do {
@@ -99,6 +101,10 @@ public class Main2Activity extends AppCompatActivity {
     }
 
 
+    public void guardarRespuestas(int mIdPregunta, int mIdRespuesta){
+        datosRespuestas.add(new RespuestasModel(mIdRespuesta, mIdPregunta));
+        mAdapterRespuestas.notifyDataSetChanged();
+    }
 
 
 
